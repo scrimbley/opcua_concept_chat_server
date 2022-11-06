@@ -124,12 +124,17 @@ cd opcua_concept_chat_server
 docker build -t opc_chat .
 ```
 
+Running the image with --net=host is required to allow the python script to bind to the real server ip.
+
+Start in interactive mode `docker run -it --net=host opc`
+
+Or
+
+Start in in background mode `docker run -d --net=host opc`
+
 The running container should be visible now with
 
 `docker container ls`
-
-Run the image with --net=host, this is required to allow the python script to bind to the real server ip
-`docker run -d --net=host opc`
 
 ## Preparing Client
 

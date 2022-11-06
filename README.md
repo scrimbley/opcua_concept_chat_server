@@ -113,12 +113,12 @@ Start the Server
 
 ### Preparing Server - with Dockerfile
 
-Make sure git and docker are installed.
+Make sure docker is installed (git is optional).
+[https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
 `sudo apt install git `
 
-[https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
 
-git clone this project
+Git clone this project or manually copy the _opcua-server.py_ and the _Dockerfile_ to a local folder.
 
 `git clone https://github.com/scrimbley/opcua_concept_chat_server.git`
 
@@ -154,7 +154,7 @@ Setup a new WinCC SCADA project.
 
 In the variablemanagement insert a new driver "OPC UA WinCC Channel".
 
-Create a new connection in that channel and set it up to connect to your server ip
+Create a new connection in that channel and set it up to connect to your server ip.
 `opc.tcp://<yourserverip>:4840`
     
 Right mouse click on the connection and 'search server', to get to know what the server is offering.

@@ -34,7 +34,7 @@ source new_opcua_env/bin/activate
 
 Install opcua-asyncio
 
-`sudo pip install asyncua`
+`pip install asyncua`
 
 The server script consist of a modified version of the ['minimal-server'-example](https://github.com/FreeOpcUa/opcua-asyncio/blob/master/examples/server-minimal.py) provided by the opcua-asyncio project.
 Copy and paste in a new file _opcua-server.py_
@@ -104,7 +104,7 @@ if __name__ == "__main__":
 
 You can modify the server name as you like.
 
-You might need to modify the ip adress from 0.0.0.0 to the actual ip of your servers network interface you intend to use.
+You might need to modify the ip adress from 0.0.0.0 to the actual ip of your servers network interface, which you intend to use.
 
 The log-level can be set to logging.DEBUG if you want more information.
 
@@ -113,9 +113,17 @@ Start the Server
 
 ### Preparing Server - with Dockerfile
 
+Make sure git and docker are installed.
+`sudo apt install git `
+
+[https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
+
 git clone this project
 
 `git clone https://github.com/scrimbley/opcua_concept_chat_server.git`
+
+Open the python file and change the ip adress from 0.0.0.0 to the actual ip of your servers network interface, which you intend to use.
+`nano opcua-server.py`
 
 Build the docker image
 
@@ -124,7 +132,7 @@ cd opcua_concept_chat_server
 docker build -t opc_chat .
 ```
 
-Running the image with --net=host is required to allow the python script to bind to the real server ip.
+Running the image with --net=host is required to allow the python script to bind to the real server ip, which is specified in the python file. 
 
 Start in interactive mode `docker run -it --net=host --name myopcchat opc_chat`
 

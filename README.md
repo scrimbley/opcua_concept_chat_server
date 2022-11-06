@@ -13,9 +13,9 @@ The server or client can be exchanged for any other opcua compatible software.
 
 ### The Plan
 
-Setting up the server to serve two variables. The first variable (**var_input**) is used as the users input, it is writeable and will be set to empy string once the server read it's content. The second variable (**var_display**) will contain the value of the first variable after it has been read and set to empy string. The second variable is not writeable by the users.
+Setting up the server to serve two variables. The first variable (**MyChatVar_Input**) is used as the users input, it is writeable and will be set to empy string once the server read it's content. The second variable (**MyChatVar_Display**) will contain the value of the first variable after it has been read and set to empy string. The second variable is not writeable by the users.
 
-The client will offer an inputfield for a string, which will be connected with the **var_input** of the server. Before inserting the text in the server's input variable the client will add the username to the beginning of the string. The server's **var_display** need to be archived with 'Log Tags' in acyclic mode. This way it can be shown as a 'WinCC OnlineTable' and will behave like a chat history.
+The client will offer an inputfield for a string, which will be connected with the **MyChatVar_Input** of the server. Before inserting the text in the server's input variable the client will add the username to the beginning of the string. The server's **MyChatVar_Display** need to be archived with 'Log Tags' in acyclic mode. This way it can be shown as a 'WinCC OnlineTable' and will behave like a chat history.
 
 
 ### Preparing Server

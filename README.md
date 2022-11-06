@@ -2,7 +2,7 @@
 
 This project is about building a basic concept of a chat-server and client. The server will run the Freeopcua python library 'opcua-asyncio'. On the clientside there will be a WinCC SCADA project connected to the server and serving as the interface for the user.
 
-### Software used
+## Software used
 
 This project uses:
 
@@ -11,26 +11,29 @@ This project uses:
 
 The server or client can be exchanged for any other opcua compatible software.
 
-### The Plan
+## The Plan
 
 Setting up the server to serve two variables. The first variable (**MyChatVar_Input**) is used as the users input, it is writeable and will be set to empy string once the server read it's content. The second variable (**MyChatVar_Display**) will contain the value of the first variable after it has been read and set to empy string. The second variable is not writeable by the users.
 
 The client will offer an inputfield for a string, which will be connected with the **MyChatVar_Input** of the server. Before inserting the text in the server's input variable the client will add the username to the beginning of the string. The server's **MyChatVar_Display** need to be archived with 'Log Tags' in acyclic mode. This way it can be shown as a 'WinCC OnlineTable' and will behave like a chat history.
 
-
-### Preparing Server
+## The Server
+### Preparing Server - manually
 
 
 Install python3
+
 `sudo apt install python3 python3-venv python3-pip`
 
 Open new virtual python environment to isolate the libraries from your systems library
+
 ```
 python3 -m venv new_opcua_env
 source new_opcua_env/bin/activate
 ```
 
 Install opcua-asyncio
+
 `sudo pip install asyncua`
 
 The server script consist of a modified version of the ['minimal-server'-example](https://github.com/FreeOpcUa/opcua-asyncio/blob/master/examples/server-minimal.py) provided by the opcua-asyncio project.
@@ -108,8 +111,27 @@ The log-level can be set to logging.DEBUG if you want more information.
 Start the Server
 `python3 opcua-server.py`
 
+### Preparing Server - with Dockerfile
 
-### Preparing Client
+git clone this project
+
+`git clone https://github.com/scrimbley/opcua_concept_chat_server.git`
+
+Build the docker image
+
+```
+cd opcua_concept_chat_server
+docker build -t opc_chat .
+```
+
+The running container should be visible now with
+
+`docker container ls`
+
+Run the image with --net=host, this is required to allow the python script to bind to the real server ip
+`docker run -d --net=host opc`
+
+## Preparing Client
 
 Setup a new WinCC SCADA project.
 

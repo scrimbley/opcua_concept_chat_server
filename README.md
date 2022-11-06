@@ -15,7 +15,7 @@ The server or client can be exchanged for any other opcua compatible software.
 
 Setting up the server to serve two variables. The first variable (**var_input**) is used as the users input, it is writeable and will be set to empy string once the server read it's content. The second variable (**var_display**) will contain the value of the first variable after it has been read and set to empy string. The second variable is not writeable by the users.
 
-The client will offer an inputfield for a string, which will be connected with the **var_input** of the server. Before inserting the text in the server's input variable the client will add the username to the beginning of the string. The server's **var_display** need to be archived with 'Log Tags' in asyncronous mode. This way it can be shown as a 'WinCC OnlineTable' and will behave like a chat history.
+The client will offer an inputfield for a string, which will be connected with the **var_input** of the server. Before inserting the text in the server's input variable the client will add the username to the beginning of the string. The server's **var_display** need to be archived with 'Log Tags' in acyclic mode. This way it can be shown as a 'WinCC OnlineTable' and will behave like a chat history.
 
 
 ### Preparing Server
@@ -55,6 +55,7 @@ async def main():
     server = Server()
     await server.init()
     server.set_endpoint("opc.tcp://0.0.0.0:4840/freeopcua/server/")
+    server.set_server_name("opcua-chat-server")
 
     # setup our own namespace, not really necessary but should as spec
     uri = "http://examples.freeopcua.github.io"
@@ -62,9 +63,9 @@ async def main():
 
     # populating our address space
     # server.nodes, contains links to very common nodes like objects and root
-    myobj = await server.nodes.objects.add_object(idx, "MyCatObjects")
-    myvar_input = await myobj.add_variable(idx, "MyVariable", "")
-    myvar_display = await myobj.add_variable(idx, "MyVariable", "Starting Chat")
+    myobj = await server.nodes.objects.add_object(idx, "MyChatObjects")
+    myvar_input = await myobj.add_variable(idx, "MyChatVar_Input", "")
+    myvar_display = await myobj.add_variable(idx, "MyChatVar_Display", "Starting Chat")
     # Set MyVariable to be writable by clients
     await myvar_input.set_writable()
     await server.nodes.objects.add_method(
@@ -75,6 +76,7 @@ async def main():
         [ua.VariantType.Int64],
     )
     _logger.info("Starting server!")
+    print("running..")
     async with server:
         while True:
             
@@ -91,15 +93,64 @@ async def main():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    #logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.CRITICAL)
     asyncio.run(main(), debug=True)
 ```
 
 
 You can modify the server name as you like.
+
 You might need to modify the ip adress from 0.0.0.0 to the actual ip of your servers network interface you intend to use.
 
+The log-level can be set to logging.DEBUG if you want more information.
 
+Start the Server
+`python3 opcua-server.py`
 
 
 ### Preparing Client
+
+Setup a new WinCC SCADA project.
+
+In the variablemanagement insert a new driver "OPC UA WinCC Channel".
+
+Create a new connection in that channel and set it up to connect to your server ip
+`opc.tcp://<yourserverip>:4840`
+    
+Right mouse click on the connection and 'search server', to get to know what the server is offering.
+
+Under 'MyChatObjects' there should now be two variables, tick the 'access' box on the left for both of them.
+
+Add two additional intern variable (e.g. _Var_Chat_Intern_Input_ and _Var_Chat_Name_) in the variablemanager. It will be used to combine the username with the written input text.
+
+Create a new screen in the graphicsmanager.
+
+To that screen you add one IO-Field connect to the _Var_Chat_Name_ and one IO-Field connected to the _Var_Chat_Intern_Input_.
+
+This visualbasic script will be added to the IO-Field of the _Var_Chat_Intern_Input_, on the 'Inputvalue got changed'-event. It's purpose is to add the username in front of the chat text.
+
+```
+Dim chat_server_input
+Dim chat_namefield
+Dim chat_intern_input
+
+
+Set chat_server_input = HMIRuntime.Tags("MyChatVar_Input")
+Set chat_namefield = HMIRuntime.Tags("Var_Chat_Name")
+Set chat_intern_input = HMIRuntime.Tags("Var_Chat_Intern_Input")
+
+' add name in front of message and put it in the opc-ua server variable
+chat_server_input.Value = chat_namefield.Read & ": " & chat_intern_input.Read
+chat_server_input.Write
+
+' delete content of the input field
+chat_intern_input.Value = ""
+chat_intern_input.Write
+```
+
+Go to 'Tag Logging' and add a new processarchiv for the _MyChatVar_Display_ of the OPC UA server variable. Set it to acyclic mode, this way it only get updated if the values changes. The acyclic mode introduce heavy load on the server but in this scenario it is ok.
+
+Insert a 'WinCC OnlineTable' on your screen and add the logged archive variable _MyChatVar_Display_ to it.
+
+After starting the runtime and confirming that the connection to the server is established, you can add a name in the appropriate field and your message in the other input field. Voilà

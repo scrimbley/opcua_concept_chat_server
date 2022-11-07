@@ -205,9 +205,12 @@ Go to 'Tag Logging' and add a new processarchiv for the _MyChatVar_Display_ of t
 
 ![09 add display server variable to acyclic archive](https://user-images.githubusercontent.com/85245074/200263970-2630b2d1-94a2-47f8-a877-3aba681651e9.png)
 
-Insert a 'WinCC OnlineTableControl' on your screen and add the logged archive variable _MyChatVar_Display_ to it. Increase the timespan for the time axis to something useful, like one day.
+Insert a 'WinCC OnlineTableControl' on your screen and add the logged archive variable _MyChatVar_Display_ to it. 
 
 ![10 add onlinetablecontrol with archive display variable](https://user-images.githubusercontent.com/85245074/200264082-6668eb7c-c747-4902-ba79-2d748a0cacde.png)
+
+Increase the timespan for the time axis to something useful, like one day.
+
 ![11 increase the timespan for the time axis](https://user-images.githubusercontent.com/85245074/200264115-9a8e5b80-ed18-40c4-a60f-c602541b88e4.png)
 
 Make sure that the Tag Logging Runtime is enabled in the project settings.

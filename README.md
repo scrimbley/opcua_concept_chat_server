@@ -39,7 +39,7 @@ Install opcua-asyncio
 The server script consist of a modified version of the ['minimal-server'-example](https://github.com/FreeOpcUa/opcua-asyncio/blob/master/examples/server-minimal.py) provided by the opcua-asyncio project.
 Copy and paste in a new file _opcua-server.py_
 
-```
+```python
 import asyncio
 import logging
 
@@ -196,7 +196,7 @@ This visualbasic script will be added to the IO-Field of the _Var_Chat_Intern_In
 
 ![08 vbs script action for input field](https://user-images.githubusercontent.com/85245074/200263910-4b99f5c6-3342-4a92-a426-aa6d9f819a34.png)
 
-```
+```vbs
 Dim chat_server_input
 Dim chat_namefield
 Dim chat_intern_input

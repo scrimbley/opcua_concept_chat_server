@@ -153,21 +153,27 @@ Start container interactive `docker start -i myopcchat`
 Setup a new WinCC SCADA project.
 
 In the variablemanagement insert a new driver "OPC UA WinCC Channel".
+![01 opc ua establish connection](https://user-images.githubusercontent.com/85245074/200263641-fcce6e7c-8deb-4302-bead-fb3423510c06.png)
 
 Create a new connection in that channel and set it up to connect to your server ip.
 `opc.tcp://<yourserverip>:4840`
-    
+    ![02 connect to server](https://user-images.githubusercontent.com/85245074/200263695-5d0847fb-6684-4355-9bb0-3b1646c31a45.png)
+
 Right mouse click on the connection and 'search server', to get to know what the server is offering.
+![03 search services on server](https://user-images.githubusercontent.com/85245074/200263717-3da76084-9323-442d-ab74-639020558a9b.png)
 
 Under 'MyChatObjects' there should now be two variables, tick the 'access' box on the left for both of them.
+![04 find variables on server](https://user-images.githubusercontent.com/85245074/200263770-eed1275a-9a4c-4b97-ae19-9765ecb98ca8.png)
+![05 enable access to variables](https://user-images.githubusercontent.com/85245074/200263789-98de3d8e-01ad-40ef-9427-347f4fe90da8.png)
 
 Add two additional internal variables (e.g. _Var_Chat_Intern_Input_ and _Var_Chat_Name_) in the variablemanager. It will be used to combine the username with the written input text.
+![06 create internal variables](https://user-images.githubusercontent.com/85245074/200263812-f2d51c8a-4e5b-4744-9cfc-c663994dabc8.png)
 
-Create a new screen in the graphicsmanager.
-
-To that screen you add one IO-Field connect to the _Var_Chat_Name_ and one IO-Field connected to the _Var_Chat_Intern_Input_.
+Create a new screen in the graphicsmanager. To that screen you add one IO-Field connect to the _Var_Chat_Name_ and one IO-Field connected to the _Var_Chat_Intern_Input_.
+![07 create input fields](https://user-images.githubusercontent.com/85245074/200263834-9a610d52-7073-4c6b-85da-938f901e8223.png)
 
 This visualbasic script will be added to the IO-Field of the _Var_Chat_Intern_Input_, on the 'Inputvalue got changed'-event. It's purpose is to add the username in front of the chat text.
+![08 vbs script action for input field](https://user-images.githubusercontent.com/85245074/200263910-4b99f5c6-3342-4a92-a426-aa6d9f819a34.png)
 
 ```
 Dim chat_server_input
@@ -189,7 +195,15 @@ chat_intern_input.Write
 ```
 
 Go to 'Tag Logging' and add a new processarchiv for the _MyChatVar_Display_ of the OPC UA server variable. Set it to acyclic mode, this way the variable archive only get updated if the values changes.
+![09 add display server variable to acyclic archive](https://user-images.githubusercontent.com/85245074/200263970-2630b2d1-94a2-47f8-a877-3aba681651e9.png)
 
-Insert a 'WinCC OnlineTable' on your screen and add the logged archive variable _MyChatVar_Display_ to it.
+Insert a 'WinCC OnlineTableControl' on your screen and add the logged archive variable _MyChatVar_Display_ to it. Increase the timespan for the time axis to something useful, like one day.
+![10 add onlinetablecontrol with archive display variable](https://user-images.githubusercontent.com/85245074/200264082-6668eb7c-c747-4902-ba79-2d748a0cacde.png)
+![11 increase the timespan for the time axis](https://user-images.githubusercontent.com/85245074/200264115-9a8e5b80-ed18-40c4-a60f-c602541b88e4.png)
+
+Make sure that the Tag Logging Runtime is enabled in the project settings.
+![12 make sure the tag logging runtime is activated](https://user-images.githubusercontent.com/85245074/200264411-63688b1e-0da0-46fe-bbed-a8e6c183bac1.png)
 
 After starting the runtime and confirming that the connection to the server is established, you can add a name in the appropriate field and your message in the other input field. Voilà
+![final chat window](https://user-images.githubusercontent.com/85245074/200264439-10695d3c-4a23-41dc-992f-90f781b90e40.png)
+

@@ -161,7 +161,7 @@ Right mouse click on the connection and 'search server', to get to know what the
 
 Under 'MyChatObjects' there should now be two variables, tick the 'access' box on the left for both of them.
 
-Add two additional intern variable (e.g. _Var_Chat_Intern_Input_ and _Var_Chat_Name_) in the variablemanager. It will be used to combine the username with the written input text.
+Add two additional internal variables (e.g. _Var_Chat_Intern_Input_ and _Var_Chat_Name_) in the variablemanager. It will be used to combine the username with the written input text.
 
 Create a new screen in the graphicsmanager.
 
@@ -188,7 +188,7 @@ chat_intern_input.Value = ""
 chat_intern_input.Write
 ```
 
-Go to 'Tag Logging' and add a new processarchiv for the _MyChatVar_Display_ of the OPC UA server variable. Set it to acyclic mode, this way it only get updated if the values changes. The acyclic mode introduce heavy load on the server but in this scenario it is ok.
+Go to 'Tag Logging' and add a new processarchiv for the _MyChatVar_Display_ of the OPC UA server variable. Set it to acyclic mode, this way the variable archive only get updated if the values changes.
 
 Insert a 'WinCC OnlineTable' on your screen and add the logged archive variable _MyChatVar_Display_ to it.
 

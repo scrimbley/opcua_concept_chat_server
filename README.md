@@ -136,19 +136,31 @@ docker build -t opc_chat .
 
 Running the image with --net=host is required to allow the python script to bind to the real server ip, which is specified in the python file. 
 
-Start in interactive mode `docker run -it --net=host --name myopcchat opc_chat`
+Start in interactive mode 
+
+`docker run -it --net=host --name myopcchat opc_chat`
 
 Or
 
-Start in in background mode `docker run -d --net=host --name myopcchat opc_chat`
+Start in in background mode 
 
-The running container should be visible now with `docker container ls`
+`docker run -d --net=host --name myopcchat opc_chat`
 
-Stop container `docker stop myopcchat`
+The running container should be visible now with 
 
-Start container `docker start myopcchat`
+`docker container ls`
 
-Start container interactive `docker start -i myopcchat`
+Stop container 
+
+`docker stop myopcchat`
+
+Start container 
+
+`docker start myopcchat`
+
+Start container interactive 
+
+`docker start -i myopcchat`
 
 ## Preparing Client
 

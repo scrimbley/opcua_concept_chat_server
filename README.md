@@ -109,13 +109,14 @@ You might need to modify the ip adress from 0.0.0.0 to the actual ip of your ser
 The log-level can be set to logging.DEBUG if you want more information.
 
 Start the Server
+
 `python3 opcua-server.py`
 
 ### Preparing Server - with Dockerfile
 
 Make sure docker is installed (git is optional).
-[https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
-`sudo apt install git `
+- [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
+- `sudo apt install git `
 
 
 Git clone this project or manually copy the _opcua-server.py_ and the _Dockerfile_ to a local folder.
@@ -123,6 +124,7 @@ Git clone this project or manually copy the _opcua-server.py_ and the _Dockerfil
 `git clone https://github.com/scrimbley/opcua_concept_chat_server.git`
 
 Open the python file and change the ip adress from 0.0.0.0 to the actual ip of your servers network interface, which you intend to use.
+
 `nano opcua-server.py`
 
 Build the docker image
